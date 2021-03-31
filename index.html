@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <nav class="navbar" id="navbar">
+      <header><h1>Grid Documentation</h1></header>
+      <ul>
+        <li><a href="#Introduction" class="nav-link">Introduction</a></li>
+        <li>
+          <a href="#Basic_browser_support" class="nav-link"
+            >Basic browser support</a
+          >
+        </li>
+        <li>
+          <a href="#Important_terminologies" class="nav-link"
+            >Important terminologies</a
+          >
+        </li>
+        <li><a href="#Display" class="nav-link">Display</a></li>
+        <li><a href="#Grid_template" class="nav-link">Grid template</a></li>
+        <li><a href="#Grid_gap" class="nav-link">Grid gap</a></li>
+        <li><a href="#Justify_items" class="nav-link">Justify items</a></li>
+        <li><a href="#Justify_content" class="nav-link">Justify content</a></li>
+        <li><a href="#Align_items" class="nav-link">Align items</a></li>
+        <li><a href="#Align_content" class="nav-link">Align content</a></li>
+        <li><a href="#Grid_auto_flow" class="nav-link">Grid auto flow</a></li>
+        <li><a href="#Grid" class="nav-link">Grid</a></li>
+      </ul>
+    </nav>
+    <main class="main-doc" id="main-doc">
+      <div class="container">
+        <!--container-->
+        <!--introduction-->
+        <section class="main-section" id="Introduction">
+          <header><h2>Introduction</h2></header>
+          <p>
+            CSS Grid Layout (aka “Grid”), is a two-dimensional grid-based layout
+            system that aims to do nothing less than completely change the way
+            we design grid-based user interfaces. CSS has always been used to
+            lay out our web pages, but it’s never done a very good job of it.
+            First, we used tables, then floats, positioning and inline-block,
+            but all of these methods were essentially hacks and left out a lot
+            of important functionality (vertical centering, for instance).
+            Flexbox helped out, but it’s intended for simpler one-dimensional
+            layouts, not complex two-dimensional ones (Flexbox and Grid actually
+            work very well together). Grid is the very first CSS module created
+            specifically to solve the layout problems we’ve all been hacking our
+            way around for as long as we’ve been making websites.
+          </p>
+          <p>
+            My intention with this guide is to present the Grid concepts as they
+            exist in the very latest version of the specification. So I won’t be
+            covering the out of date Internet Explorer syntax, and I’ll do my
+            best to update this guide regularly as the spec matures.
+          </p>
+        </section>
+
+        <!--basic_browser-->
+        <section class="main-section" id="Basic_browser_support">
+          <header><h2>Basic browser support</h2></header>
+          <p>
+            As of March 2017, most browsers shipped native, unprefixed support
+            for CSS Grid: Chrome (including on Android), Firefox, Safari
+            (including on iOS), and Opera. Internet Explorer 10 and 11 on the
+            other hand support it, but it’s an old implementation with an
+            outdated syntax. The time to build with grid is now!
+          </p>
+          <p>
+            To get started you have to define a container element as a grid
+            with<strong> display: grid,</strong> set the column and row sizes
+            with <strong>grid-template-columns</strong> and
+            <strong>grid-template-rows,</strong> and then place its child
+            elements into the grid with <strong>grid-column</strong> and
+            <strong>grid-row.</strong> Similarly to flexbox, the source order of
+            the grid items doesn’t matter. Your CSS can place them in any order,
+            which makes it super easy to rearrange your grid with media queries.
+            Imagine defining the layout of your entire page, and then completely
+            rearranging it to accommodate a different screen width all with only
+            a couple lines of CSS. Grid is one of the most powerful CSS modules
+            ever introduced.
+          </p>
+          <img
+            src="https://i.postimg.cc/6pQjL2DK/grid-support.jpg"
+            alt="browser support"
+            class="bsupport"
+          />
+        </section>
+        <section class="main-section" id="Important_terminologies">
+          <header><h2>Important terminologies</h2></header>
+          <p>
+            Before diving into the concepts of Grid it’s important to understand
+            the terminology. Since the terms involved here are all kinda
+            conceptually similar, it’s easy to confuse them with one another if
+            you don’t first memorize their meanings defined by the Grid
+            specification. But don’t worry, there aren’t many of them.
+          </p>
+          <div class="grid">
+            <div class="eru-gc">
+              <h3>Grid Container</h3>
+              <p>
+                The element on which <strong>display: grid</strong> is applied.
+                It’s the direct parent of all the grid items. In this example
+                <strong>container</strong> is the grid container.
+              </p>
+              <code>
+                &lt;div class="container&gt;<br />
+                &lt;div class="item item-1"&gt; &lt;/div &gt;<br />
+                &lt;div class="item item-2"&gt; &lt;/div &gt;<br />
+                &lt;div class="item item-3"&gt; &lt;/div &gt;<br />
+                &lt;/div&gt;
+              </code>
+            </div>
+            <div class="eru-gi">
+              <h3>Grid Item</h3>
+              <p>
+                The children (i.e. direct descendants) of the grid container.
+                Here the item elements are grid items, but sub-item isn’t.
+              </p>
+              <code>
+                &lt;div class="container"&gt;<br />
+                &lt;div class="item"&gt; &lt;/div&gt;<br />
+                &lt;div class="item"&gt;<br />
+                &lt;p class="sub-item"&gt; &lt;/p&gt;<br />
+                &lt;/div&gt;<br />
+                &lt;div class="item"&gt; &lt;/div&gt;<br />
+                &lt;/div&gt;
+              </code>
+            </div>
+            <div class="eru-gl">
+              <h3>Grid Line</h3>
+              <p>
+                The dividing lines that make up the structure of the grid. They
+                can be either vertical (“column grid lines”) or horizontal (“row
+                grid lines”) and reside on either side of a row or column. Here
+                the yellow line is an example of a column grid line.
+              </p>
+            </div>
+            <div class="eru-gcell"></div>
+            <h3>Grid Cell</h3>
+            <p>
+              The space between two adjacent row and two adjacent column grid
+              lines. It’s a single “unit” of the grid. Here’s the grid cell
+              between row grid lines 1 and 2, and column grid lines 2 and 3.
+            </p>
+          </div>
+        </section>
+        <section class="main-section" id="Display">
+          <header><h2>Display</h2></header>
+          <p>
+            Defines the element as a grid container and establishes a new grid
+            formatting context for its contents.
+          </p>
+          <ul>
+            <li><span>grid – </span>generates a block-level grid</li>
+            <li><span>inline-grid – </span>generates an inline-level grid</li>
+          </ul>
+          <code>
+            .container {<br />
+            display: grid | inline-grid;<br />
+            }
+          </code>
+        </section>
+
+        <!--grid-template-->
+        <section class="main-section" id="Grid_template">
+          <header><h2>Grid template</h2></header>
+          <p>
+            A shorthand for setting grid-template-rows, grid-template-columns,
+            and grid-template-areas in a single declaration.
+          </p>
+          <ul>
+            <li>
+              <span>none –</span> sets all three properties to their initial
+              values
+            </li>
+            <li>
+              <span
+                >&lt;grid-template-rows&gt; / &lt;grid-template-columns&gt; – </span
+              >sets grid-template-columns and grid-template-rows to the
+              specified values, respectively, and sets grid-template-areas to
+              none
+            </li>
+          </ul>
+          <code
+            >.container {<br />
+            grid-template: none | &lt;grid-template-rows&gt; /
+            &lt;grid-template-columns&gt;;<br />
+            }</code
+          >
+          <p>
+            It also accepts a more complex but quite handy syntax for specifying
+            all three. Here’s an example:
+          </p>
+          <code>
+            .container {<br />
+            grid-template:<br />
+            [row1-start] "header header header" 25px [row1-end]<br />
+            [row2-start] "footer footer footer" 25px [row2-end]<br />
+            / auto 50px auto;<br />
+            }
+          </code>
+          <p>That’s equivalent to this:</p>
+          <code>
+            .container {<br />
+            grid-template-rows: [row1-start] 25px [row1-end row2-start] 25px
+            [row2-end];<br />
+            grid-template-columns: auto 50px auto;<br />
+            grid-template-areas: <br />
+            "header header header" <br />
+            "footer footer footer";<br />
+            }
+          </code>
+          <p>
+            Since grid-template doesn’t reset the implicit grid properties
+            (grid-auto-columns, grid-auto-rows, and grid-auto-flow), which is
+            probably what you want to do in most cases, it’s recommended to use
+            the grid property instead of grid-template.
+          </p>
+        </section>
+
+        <!--grid-gap-->
+        <section class="main-section" id="Grid_gap">
+          <header><h2>Grid gap</h2></header>
+          <p>
+            Specifies the size of the grid lines. You can think of it like
+            setting the width of the gutters between the columns/rows. It is a
+            shorthand for row-gap and column-gap
+          </p>
+          <code
+            >.container {<br />
+            /* standard */<br />
+            gap: &lt;grid-row-gap&gt; &lt;grid-column-gap&gt;;<br />
+
+            /* old */<br />
+            grid-gap: &lt;grid-row-gap&gt; &lt;grid-column-gap&gt;;<br />
+            }
+          </code>
+          <p>Example:</p>
+          <code
+            >.container {<br />
+            grid-template-columns: 100px 50px 100px;<br />
+            grid-template-rows: 80px auto 80px; <br />
+            gap: 15px 10px;<br />
+            }
+          </code>
+          <p>
+            Note: The grid- prefix is deprecated (but who knows, may never
+            actually be removed from browsers). Essentially grid-gap renamed to
+            gap. The unprefixed property is already supported in Chrome 68+,
+            Safari 11.2 Release 50+, and Opera 54+.
+          </p>
+        </section>
+
+        <!--justify-items-->
+        <section class="main-section" id="Justify_items">
+          <header><h2>Justify items</h2></header>
+          <p>
+            Aligns grid items along the inline (row) axis (as opposed to
+            align-items which aligns along the block (column) axis). This value
+            applies to all grid items inside the container.
+          </p>
+          <ul>
+            <li>
+              <span>start – </span> aligns items to be flush with the start edge
+              of their cell
+            </li>
+            <li>
+              <span>end – </span>aligns items to be flush with the end edge of
+              their cell
+            </li>
+            <li>
+              <span>center – </span>aligns items in the center of their cell
+            </li>
+            <li>
+              <span>stretch – </span> fills the whole width of the cell (this is
+              the default)
+            </li>
+          </ul>
+          <code
+            >.container {<br />
+            justify-items: start | end | center | stretch;<br />
+            }</code
+          >
+        </section>
+
+        <!--justify-content-->
+        <section class="main-section" id="Justify_content">
+          <header><h2>Justify content</h2></header>
+          <p>
+            Sometimes the total size of your grid might be less than the size of
+            its grid container. This could happen if all of your grid items are
+            sized with non-flexible units like px. In this case you can set the
+            alignment of the grid within the grid container. This property
+            aligns the grid along the inline (row) axis (as opposed to
+            align-content which aligns the grid along the block (column) axis).
+          </p>
+          <ul>
+            <li>
+              <span>start – </span>aligns the grid to be flush with the start
+              edge of the grid container
+            </li>
+            <li>
+              <span>end – </span>aligns the grid to be flush with the end edge
+              of the grid container
+            </li>
+            <li>
+              <span>center – </span>aligns the grid in the center of the grid
+              container
+            </li>
+            <li>
+              <span>stretch – </span>resizes the grid items to allow the grid to
+              fill the full width of the grid container
+            </li>
+            <li>
+              <span>space-around - </span>places an even amount of space between
+              each grid item, with half-sized spaces on the far ends
+            </li>
+            <li>
+              <span>space-between – </span>places an even amount of space
+              between each grid item, with no space at the far ends
+            </li>
+            <li>
+              <span>space-evenly – </span>places an even amount of space between
+              each grid item, including the far ends
+            </li>
+          </ul>
+          <code
+            >.container {<br />
+            justify-content: start | end | center | stretch | space-around |
+            space-between | space-evenly; <br />
+            }</code
+          >
+        </section>
+
+        <!--align-items-->
+        <section class="main-section" id="Align_items">
+          <header><h2>Align items</h2></header>
+          <p>
+            Aligns grid items along the block (column) axis (as opposed to
+            justify-items which aligns along the inline (row) axis). This value
+            applies to all grid items inside the container.
+          </p>
+          <ul>
+            <li>
+              <span>start – </span>aligns items to be flush with the start edge
+              of their cell
+            </li>
+            <li>
+              <span>end – </span>aligns items to be flush with the end edge of
+              their cell
+            </li>
+            <li>
+              <span>center – </span>aligns items in the center of their cell
+            </li>
+            <li>
+              <span>stretch – </span>fills the whole height of the cell (this is
+              the default)
+            </li>
+          </ul>
+          <code
+            >.container {<br />
+            align-items: start | end | center | stretch;<br />
+            }</code
+          >
+        </section>
+
+        <!--align-content-->
+        <section class="main-section" id="Align_content">
+          <header><h2>Align content</h2></header>
+          <p>
+            Sometimes the total size of your grid might be less than the size of
+            its grid container. This could happen if all of your grid items are
+            sized with non-flexible units like px. In this case you can set the
+            alignment of the grid within the grid container. This property
+            aligns the grid along the block (column) axis (as opposed to
+            justify-content which aligns the grid along the inline (row) axis).
+          </p>
+          <ul>
+            <li>
+              <span>start – </span>aligns the grid to be flush with the start
+              edge of the grid container
+            </li>
+            <li>
+              <span>end – </span>aligns the grid to be flush with the end edge
+              of the grid container
+            </li>
+            <li>
+              <span>center – </span>aligns the grid in the center of the grid
+              container
+            </li>
+            <li>
+              <span>stretch – </span>resizes the grid items to allow the grid to
+              fill the full height of the grid container
+            </li>
+            <li>
+              <span>space-around – </span>places an even amount of space between
+              each grid item, with half-sized spaces on the far ends
+            </li>
+            <li>
+              <span>space-between – </span>places an even amount of space
+              between each grid item, with no space at the far ends
+            </li>
+            <li>
+              <span>space-evenly – </span>places an even amount of space between
+              each grid item, including the far ends
+            </li>
+          </ul>
+          <code
+            >.container {<br />
+            align-content: start | end | center | stretch | space-around |
+            space-between | space-evenly; <br />
+            }</code
+          >
+        </section>
+
+        <!--grid-auto-flow-->
+        <section class="main-section" id="Grid_auto_flow">
+          <header><h2>Grid auto flow</h2></header>
+          <p>
+            If you have grid items that you don’t explicitly place on the grid,
+            the auto-placement algorithm kicks in to automatically place the
+            items. This property controls how the auto-placement algorithm
+            works.
+          </p>
+          <ul>
+            <li>
+              <span>row – </span>tells the auto-placement algorithm to fill in
+              each row in turn, adding new rows as necessary (default)
+            </li>
+            <li>
+              <span>column – </span>tells the auto-placement algorithm to fill
+              in each column in turn, adding new columns as necessary
+            </li>
+            <li>
+              <span>dense – </span>tells the auto-placement algorithm to attempt
+              to fill in holes earlier in the grid if smaller items come up
+              later
+            </li>
+          </ul>
+          <p>
+            Note that dense only changes the visual order of your items and
+            might cause them to appear out of order, which is bad for
+            accessibility.
+            <br />
+            Examples:
+            <br />
+            Consider this HTML:
+          </p>
+          <code>
+            &lt;section class="container"&gt;<br />
+            &lt;div class="item-a"&gt;item-a&lt;/div&gt;<br />
+            &lt;div class="item-b"&gt;item-b&lt;/div&gt;<br />
+            &lt;div class="item-c"&gt;item-c&lt;/div&gt;<br />
+            &lt;div class="item-d"&gt;item-d&lt;/div&gt;<br />
+            &lt;div class="item-e"&gt;item-e&lt;/div&gt;<br />
+            &lt;/section&gt;
+          </code>
+          <p>
+            You define a grid with five columns and two rows, and set
+            grid-auto-flow to row (which is also the default):
+          </p>
+          <code
+            >.container { display: grid;<br />
+            grid-template-columns: 60px 60px 60px 60px 60px;<br />
+            grid-template-rows: 30px 30px;<br />
+            grid-auto-flow: row;<br />
+            }</code
+          >
+          <p>
+            When placing the items on the grid, you only specify spots for two
+            of them:
+          </p>
+          <code
+            >.item-a {<br />
+            grid-column: 1;<br />
+            grid-row: 1 / 3;<br />
+            }<br />
+            .item-e {<br />
+            grid-column: 5;<br />
+            grid-row: 1 / 3;<br />
+            }</code
+          >
+        </section>
+
+        <!--grid-->
+        <section class="main-section" id="Grid">
+          <header><h2>Grid</h2></header>
+          <p>
+            A shorthand for setting all of the following properties in a single
+            declaration: grid-template-rows, grid-template-columns,
+            grid-template-areas, grid-auto-rows, grid-auto-columns, and
+            grid-auto-flow (Note: You can only specify the explicit or the
+            implicit grid properties in a single grid declaration).
+          </p>
+          <ul>
+            <li>
+              <span>none – </span>sets all sub-properties to their initial
+              values.
+            </li>
+            <li>
+              <span>&lt;grid-template&gt; – </span>works the same as the
+              grid-template shorthand.
+            </li>
+            <li>
+              <span
+                >&lt;grid-template-rows&gt; / [ auto-flow && dense? ]
+                &lt;grid-auto-columns&gt;? – </span
+              >sets grid-template-rows to the specified value. If the auto-flow
+              keyword is to the right of the slash, it sets grid-auto-flow to
+              column. If the dense keyword is specified additionally, the
+              auto-placement algorithm uses a “dense” packing algorithm. If
+              grid-auto-columns is omitted, it is set to auto.
+            </li>
+            <li>
+              <span
+                >[ auto-flow && dense? ] &lt;grid-auto-rows&gt;? /
+                &lt;grid-template-columns&gt; – </span
+              >sets grid-template-columns to the specified value. If the
+              auto-flow keyword is to the left of the slash, it sets
+              grid-auto-flow to row. If the dense keyword is specified
+              additionally, the auto-placement algorithm uses a “dense” packing
+              algorithm. If grid-auto-rows is omitted, it is set to auto.
+            </li>
+          </ul>
+          <p>
+            Examples:<br />
+
+            The following two code blocks are equivalent:
+          </p>
+          <code>
+            .container {<br />
+            grid: 100px 300px / 3fr 1fr;<br />
+            }
+            <br />
+            .container {<br />
+            grid-template-rows: 100px 300px;<br />
+            grid-template-columns: 3fr 1fr;<br />
+            }
+          </code>
+          <p>
+            It also accepts a more complex but quite handy syntax for setting
+            everything at once. You specify grid-template-areas,
+            grid-template-rows and grid-template-columns, and all the other
+            sub-properties are set to their initial values. What you’re doing is
+            specifying the line names and track sizes inline with their
+            respective grid areas. This is easiest to describe with an example:
+          </p>
+          <code>
+            .container {<br />
+            grid-template-areas: <br />
+            "header header header"<br />
+            "footer footer footer";<br />
+            grid-template-rows: [row1-start] 1fr [row1-end row2-start] 25px
+            [row2-end];<br />
+            grid-template-columns: auto 50px auto; <br />
+            }
+          </code>
+        </section>
+      </div>
+    </main>
+    <footer><p>&copy; O.C Ochagwu 2021</p></footer>
+  </body>
+</html>
